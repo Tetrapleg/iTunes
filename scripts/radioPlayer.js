@@ -18,13 +18,6 @@ export const radioPlayerInit = () => {
   volumeProgress.style.marginLeft = '15px';
   audio.volume = volumeProgress.value;
 
-  const createElementsOfVolume = () => {
-    // <i class="fa fa-volume-up" aria-hidden="true"></i>
-    const volumeOn = document.createElement('i');
-    volumeOn.classList.add('fa fa-volume-up');
-    volumeProgress.append(volumeOn);
-  };
-
   const changeIconPlay = () => {
     if (audio.paused){
       radio.classList.remove('play');
