@@ -5,18 +5,16 @@ export const radioPlayerInit = () => {
         radioHeaderBig = document.querySelector('.radio-header__big'),
         radioItem = document.querySelectorAll('.radio-item'),
         radioStop = document.querySelector('.radio-stop'),
-        volumeProgress = document.querySelector('.volume-progress');
-  
-  volumeProgress.style.width = '150px';
+        radioVolume = document.querySelector('.radio-volume'),
+        radioMute = document.querySelector('.radio-mute');
+
+  let prevVolume = 0.5;
 
   const audio = new Audio();
   audio.type = 'audio/aac'; //потоковое радио
 
   radioStop.disabled = true;
   radioStop.style.marginRight = '35px';
-  volumeProgress.style.marginRight = '15px';
-  volumeProgress.style.marginLeft = '15px';
-  audio.volume = volumeProgress.value;
 
   const changeIconPlay = () => {
     if (audio.paused){
@@ -63,9 +61,24 @@ export const radioPlayerInit = () => {
     changeIconPlay();
   });
 
-  volumeProgress.addEventListener('input', () => {
-    audio.volume = volumeProgress.value;
+  radioVolume.addEventListener('input', () => {
+    audio.volume = radioVolume.value / 100;
+    prevVolume = audio.volume;
   });
+
+  radioMute.addEventListener('click', () => {
+    if (audio.volume){
+      prevVolume = audio.volume;
+      audio.volume = 0;
+    } else {
+      audio.volume = prevVolume;
+    }
+  });
+
+  radioPlayerInit.stop = () => {
+    audio.pause();
+    changeIconPlay();
+  };
 };
 
 
